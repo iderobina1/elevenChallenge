@@ -1,22 +1,21 @@
-//dependencies
+// Dependencies
+const express = require('express');
+const fs = require('fs');
 
-const express = require('express')
-const fs = require('fs')
+// Set up express app
+var app = express();
+var PORT = process.env.PORT || 3001;
 
-//setup express app
-var app = express()
-var PORT = proces.env.PORT || 3001
+// Set up the express app to handle data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use('/public/assets', express.static(__dirname + '/public/assets'));
 
-//setup the express app to handle data
+// Require and set up your routes
+require('./routes/html-routes')(app);
+require('./routes/api-routes')(app);
 
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-app.use('/public/assets', express.static(__dirname + '/public/assets'))
-
-require('./routes/html-routes')(app)
-require('./routes/api-routes')(app)
-
-//start the server to begin listenign
+// Start the server to begin listening
 app.listen(PORT, function() {
-    console.log('now listenting to PORT' + PORT)
-})
+    console.log('Now listening to PORT ' + PORT);
+});
